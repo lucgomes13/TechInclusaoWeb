@@ -1,0 +1,106 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ff2d55;
+    color: white;
+    padding: 10px 20px;
+}
+
+.logo img {
+    width: 100px;
+}
+
+.search-bar input {
+    padding: 8px;
+    width: 300px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+}
+
+.user-options .login-btn {
+    background-color: white;
+    color: #ff2d55;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.hero {
+    background: url('images/hero-bg.jpg') no-repeat center center/cover;
+    color: white;
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.hero h1 {
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+}
+
+.hero input {
+    padding: 10px;
+    width: 60%;
+    max-width: 400px;
+    border-radius: 20px;
+    border: none;
+    margin-bottom: 20px;
+    outline: none;
+}
+
+.btn-primary {
+    padding: 10px 20px;
+    background-color: #ff2d55;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.restaurants {
+    padding: 20px;
+}
+
+.restaurants h2 {
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
+
+.restaurant-list {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.restaurant-item {
+    width: 200px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.restaurant-item img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+}
