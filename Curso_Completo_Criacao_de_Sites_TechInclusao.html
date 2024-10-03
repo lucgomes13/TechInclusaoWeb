@@ -1,0 +1,935 @@
+<html><head><base href="https://websim.dev/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curso Completo de Desenvolvimento Web</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+  .module-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px;
+    display: block;
+    animation: spin 10s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script type="text/babel">
+const ModuleIcon = ({ moduleNumber }) => {
+  return (
+    <svg className="module-icon" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="45" fill="#90EE90" />
+      <text x="50" y="50" fontFamily="Arial" fontSize="40" fill="white" textAnchor="middle" alignmentBaseline="central">{moduleNumber}</text>
+    </svg>
+  );
+};
+
+const Module = ({ number, title, content, curiosities, image, exercises }) => {
+  return (
+    <div className="card mb-4" id={`module${number}`}>
+      <div className="card-body">
+        <h2 className="card-title text-primary mb-4 display-4">{title}</h2>
+        <div className="row">
+          <div className="col-md-8">
+            <div dangerouslySetInnerHTML={{__html: content}} />
+          </div>
+          <div className="col-md-4">
+            <div dangerouslySetInnerHTML={{__html: image}} className="text-center mb-4" />
+          </div>
+        </div>
+        <div dangerouslySetInnerHTML={{__html: curiosities}} className="alert alert-info" />
+        <h3>Exercícios</h3>
+        {exercises.map((exercise, index) => (
+          <div key={index} className={`alert ${exercise.type === 'challenge' ? 'alert-danger' : 'alert-info'} mt-3`}>
+            <h4 className="alert-heading">{exercise.title}</h4>
+            <p>{exercise.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const Footer = () => {
+  return (
+    <footer className="bg-light py-3 mt-4">
+      <div className="container text-center">
+        <p className="text-muted mb-0">Professor: Luciano Gomes | WhatsApp: +55(63)99103-5348</p>
+      </div>
+    </footer>
+  );
+};
+
+const App = () => {
+  const modules = [
+    {
+      number: 1,
+      title: "Fundamentos de Desenvolvimento Web",
+      content: `
+        <p>Este módulo introduz os conceitos fundamentais do desenvolvimento web, abordando a estrutura da internet, protocolos de comunicação, e os papéis do cliente e do servidor. Você aprenderá sobre a evolução da web e as tecnologias essenciais que formam a base do desenvolvimento moderno.</p>
+        <h3>Tópicos Abordados:</h3>
+        <ul>
+          <li>História e evolução da World Wide Web</li>
+          <li>Arquitetura cliente-servidor</li>
+          <li>Protocolos de internet (HTTP, HTTPS)</li>
+          <li>Navegadores e como eles funcionam</li>
+          <li>Introdução ao desenvolvimento front-end e back-end</li>
+        </ul>
+        <h3>Aprofundamento:</h3>
+        <p>A World Wide Web foi criada por Tim Berners-Lee em 1989 no CERN. Inicialmente concebida como uma forma de compartilhar informações entre cientistas, ela rapidamente se expandiu para se tornar a rede global que conhecemos hoje. A arquitetura cliente-servidor é fundamental para entender como a web funciona: o cliente (geralmente um navegador) faz solicitações ao servidor, que responde com os recursos solicitados.</p>
+        <p>Os protocolos HTTP e HTTPS são a base da comunicação na web. O HTTP (Hypertext Transfer Protocol) define como as mensagens são formatadas e transmitidas, enquanto o HTTPS adiciona uma camada de segurança através de criptografia.</p>
+        <p>Os navegadores modernos são softwares complexos que interpretam HTML, CSS e JavaScript para renderizar páginas web. Eles também gerenciam caches, cookies e fornecem ferramentas de desenvolvimento para os programadores.</p>
+      `,
+      curiosities: `
+        <h4>Você sabia?</h4>
+        <ul>
+          <li>O primeiro website ainda está online! Você pode visitá-lo em http://info.cern.ch/</li>
+          <li>O termo "bug" em programação vem de um incidente real em 1947, quando um inseto (em inglês, "bug") foi encontrado dentro de um computador, causando um mau funcionamento.</li>
+        </ul>
+      `,
+      image: `
+        <svg width="200" height="200" viewBox="0 0 200 200">
+          <defs>
+            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#4CAF50;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#2196F3;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <rect x="10" y="10" width="180" height="180" fill="url(#grad1)" rx="15" ry="15"/>
+          <text x="100" y="70" font-family="Arial" font-size="24" text-anchor="middle" fill="white">WWW</text>
+          <path d="M50,100 A30,30 0 0,1 150,100 A30,30 0 0,1 50,100" fill="none" stroke="white" stroke-width="4"/>
+          <circle cx="50" cy="100" r="10" fill="white"/>
+          <circle cx="150" cy="100" r="10" fill="white"/>
+        </svg>
+      `,
+      exercises: [
+        {
+          title: "Exercício Básico 1",
+          description: "Crie uma página HTML simples que explique o que é a World Wide Web.",
+          type: "basic"
+        },
+        {
+          title: "Exercício Básico 2",
+          description: "Faça um diagrama em HTML e CSS que ilustre a arquitetura cliente-servidor.",
+          type: "basic"
+        },
+        {
+          title: "Exercício Intermediário",
+          description: "Desenvolva uma página que demonstre a diferença entre HTTP e HTTPS, incluindo uma animação simples em CSS.",
+          type: "intermediate"
+        },
+        {
+          title: "Desafio",
+          description: "Crie uma aplicação web simples que simule a comunicação entre cliente e servidor usando JavaScript.",
+          type: "challenge"
+        }
+      ]
+    },
+    {
+      number: 2,
+      title: "HTML e CSS",
+      content: `
+        <p>Neste módulo, você aprenderá as linguagens fundamentais para a criação de páginas web: HTML para estruturação e CSS para estilização. Você dominará a arte de criar layouts atraentes e responsivos.</p>
+        <h3>Tópicos Abordados:</h3>
+        <ul>
+          <li>Estrutura básica de um documento HTML</li>
+          <li>Tags HTML e seus atributos</li>
+          <li>Semântica HTML5</li>
+          <li>Seletores CSS e propriedades</li>
+          <li>Layout com Flexbox e Grid</li>
+          <li>Responsividade com Media Queries</li>
+        </ul>
+        <h3>Aprofundamento:</h3>
+        <p>HTML (HyperText Markup Language) é a linguagem padrão para criar páginas web. O HTML5, a versão mais recente, trouxe novas funcionalidades como suporte a vídeos e áudio, melhor suporte a gráficos e a adição de APIs como geolocalização. CSS (Cascading Style Sheets) é utilizado para estilizar essas páginas, permitindo a personalização de fontes, cores e layouts.</p>
+        <p>O Flexbox e o Grid são poderosas ferramentas que facilitam o design responsivo, permitindo que os desenvolvedores criem interfaces que se adaptam a diferentes tamanhos de tela de forma eficiente.</p>
+      `,
+      curiosities: `
+        <h4>Você sabia?</h4>
+        <ul>
+          <li>A primeira versão do HTML foi criada em 1991.</li>
+          <li>O CSS foi desenvolvido por Håkon Wium Lie em 1994.</li>
+        </ul>
+      `,
+      image: `
+        <svg width="200" height="200" viewBox="0 0 200 200">
+          <defs>
+            <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#FF5722;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#FFC107;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <rect x="10" y="10" width="180" height="180" fill="url(#grad2)" rx="15" ry="15"/>
+          <text x="100" y="70" font-family="Arial" font-size="24" text-anchor="middle" fill="white">HTML5</text>
+          <text x="100" y="140" font-family="Arial" font-size="24" text-anchor="middle" fill="white">CSS3</text>
+          <polygon points="50,100 75,75 100,100 125,75 150,100" fill="none" stroke="white" stroke-width="4"/>
+        </svg>
+      `,
+      exercises: [
+        {
+          title: "Exercício Básico 1",
+          description: "Crie uma página de perfil pessoal usando HTML semântico.",
+          type: "basic"
+        },
+        {
+          title: "Exercício Básico 2",
+          description: "Estilize a página de perfil criada anteriormente usando CSS.",
+          type: "basic"
+        },
+        {
+          title: "Exercício Intermediário",
+          description: "Desenvolva um layout de blog responsivo usando Flexbox ou Grid.",
+          type: "intermediate"
+        },
+        {
+          title: "Desafio",
+          description: "Crie uma landing page completa com navegação, hero section, features, e footer, totalmente responsiva.",
+          type: "challenge"
+        }
+      ]
+    },
+    {
+      number: 3,
+      title: "JavaScript",
+      content: `
+        <p>JavaScript é a linguagem que traz interatividade para a web. Neste módulo, você aprenderá desde os conceitos básicos até técnicas avançadas de programação com JavaScript.</p>
+        <h3>Tópicos Abordados:</h3>
+        <ul>
+          <li>Sintaxe básica e tipos de dados</li>
+          <li>Estruturas de controle (if, for, while)</li>
+          <li>Funções e escopo</li>
+          <li>Manipulação do DOM</li>
+          <li>Eventos e listeners</li>
+          <li>AJAX e Fetch API</li>
+        </ul>
+        <h3>Aprofundamento:</h3>
+        <p>JavaScript foi criado por Brendan Eich em 1995 e se tornou uma das principais linguagens de programação para web. Os fundamentos do JavaScript incluem variáveis, operadores, controle de fluxo, funções e manipulação do DOM, que é a estrutura hierárquica do documento HTML.</p>
+        <p>AJAX (Asynchronous JavaScript and XML) permite a atualização de partes de uma página web sem a necessidade de recarregá-la completamente, permitindo interações mais dinâmicas e eficientes.</p>
+      `,
+      curiosities: `
+        <h4>Você sabia?</h4>
+        <ul>
+          <li>JavaScript foi inicialmente chamado de Mocha e depois Muddy.</li>
+          <li>A famosa biblioteca jQuery, que simplifica a manipulação do DOM, foi lançada em 2006 e revolucionou o desenvolvimento web.</li>
+        </ul>
+      `,
+      image: `
+        <svg width="200" height="200" viewBox="0 0 200 200">
+          <defs>
+            <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#FFC107;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#FF5722;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <rect x="10" y="10" width="180" height="180" fill="url(#grad3)" rx="15" ry="15"/>
+          <text x="100" y="100" font-family="Arial" font-size="24" text-anchor="middle" fill="white">JS</text>
+          <path d="M50,150 C50,100 150,100 150,50" fill="none" stroke="white" stroke-width="4"/>
+          <circle cx="50" cy="150" r="10" fill="white"/>
+          <circle cx="150" cy="50" r="10" fill="white"/>
+        </svg>
+      `,
+      exercises: [
+        {
+          title: "Exercício Básico 1",
+          description: "Crie uma calculadora simples usando JavaScript.",
+          type: "basic"
+        },
+        {
+          title: "Exercício Básico 2",
+          description: "Implemente um formulário de contato com validação em JavaScript.",
+          type: "basic"
+        },
+        {
+          title: "Exercício Intermediário",
+          description: "Desenvolva um jogo de memória usando manipulação do DOM e eventos.",
+          type: "intermediate"
+        },
+        {
+          title: "Desafio",
+          description: "Crie uma aplicação de lista de tarefas (Todo List) com armazenamento local e sincronização com uma API.",
+          type: "challenge"
+        }
+      ]
+    },
+    {
+      number: 4,
+      title: "Design Responsivo e Usabilidade",
+      content: `
+        <p>Este módulo foca na criação de interfaces que se adaptam a diferentes dispositivos e oferecem uma excelente experiência ao usuário.</p>
+        <h3>Tópicos Abordados:</h3>
+        <ul>
+          <li>Princípios do design responsivo</li>
+          <li>Mobile-first design</li>
+          <li>Técnicas avançadas de CSS para responsividade</li>
+          <li>Usabilidade e UX (User Experience)</li>
+          <li>Testes de usabilidade</li>
+        </ul>
+        <h3>Aprofundamento:</h3>
+        <p>O Design Responsivo é uma abordagem que visa criar websites que funcionem de maneira eficaz em diferentes dispositivos e tamanhos de tela. Ele usa media queries em CSS para alterar as propriedades de layout dependendo das características do dispositivo.</p>
+        <p>O Mobile-first design propõe que os desenvolvedores pensem primeiro nas versões mobile de seus sites, adaptando as versões desktop depois. Isso garante uma melhor experiência para a crescente base de usuários que acessam a web por dispositivos móveis.</p>
+      `,
+      curiosities: `
+        <h4>Você sabia?</h4>
+        <ul>
+          <li>54% do tráfego web global é gerado por dispositivos móveis.</li>
+          <li>A primeira versão do Google Search não era responsiva, mas o Google agora prioriza sites otimizados para mobile em seus resultados de busca.</li>
+        </ul>
+      `,
+      image: `
+        <svg width="200" height="200" viewBox="0 0 200 200">
+          <defs>
+            <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#3F51B5;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#FF4081;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <rect x="10" y="10" width="180" height="180" fill="url(#grad4)" rx="15" ry="15"/>
+          <text x="100" y="100" font-family="Arial" font-size="24" text-anchor="middle" fill="white">Responsivo</text>
+          <path d="M50,50 C100,0 150,100 50,150" fill="none" stroke="white" stroke-width="4"/>
+          <circle cx="50" cy="150" r="10" fill="white"/>
+          <circle cx="150" cy="50" r="10" fill="white"/>
+        </svg>
+      `,
+      exercises: [
+        {
+          title: "Exercício Básico 1",
+          description: "Transforme um layout fixo em um layout responsivo usando media queries.",
+          type: "basic"
+        },
+        {
+          title: "Exercício Básico 2",
+          description: "Crie um menu de navegação que se adapte a dispositivos móveis e desktop.",
+          type: "basic"
+        },
+        {
+          title: "Exercício Intermediário",
+          description: "Implemente um carrossel de imagens responsivo sem usar bibliotecas externas.",
+          type: "intermediate"
+        },
+        {
+          title: "Desafio",
+          description: "Desenvolva um protótipo de e-commerce totalmente responsivo, com foco em usabilidade e experiência do usuário.",
+          type: "challenge"
+        }
+      ]
+    },
+    {
+      number: 5,
+      title: "Acessibilidade na Web",
+      content: `
+        <p>A acessibilidade é crucial para garantir que todos os usuários possam acessar e interagir com o conteúdo web. Este módulo abordará as melhores práticas e técnicas para tornar seus sites acessíveis.</p>
+        <h3>Tópicos Abordados:</h3>
+        <ul>
+          <li>Princípios de acessibilidade web</li>
+          <li>WAI-ARIA</li>
+          <li>Testes de acessibilidade</li>
+          <li>Tecnologias assistivas</li>
+          <li>Legislação e diretrizes de acessibilidade</li>
+        </ul>
+        <h3>Aprofundamento:</h3>
+        <p>A acessibilidade web envolve garantir que pessoas com deficiências possam utilizar sites e aplicações. Isso inclui usar marcação semântica correta, fornecer texto alternativo para imagens e garantir que seu site possa ser navegado e utilizado apenas com o teclado.</p>
+        <p>As diretrizes WAI-ARIA (Web Accessibility Initiative - Accessible Rich Internet Applications) são um conjunto de especificações que ajudam desenvolvedores a tornar suas aplicações web mais acessíveis.</p>
+      `,
+      curiosities: `
+        <h4>Você sabia?</h4>
+        <ul>
+          <li>Cerca de 15% da população mundial vive com algum tipo de deficiência.</li>
+          <li>Os sites que são acessíveis podem alcançar um público muito maior e inclusive melhorar sua performance em SEO.</li>
+        </ul>
+      `,
+      image: `
+        <svg width="200" height="200" viewBox="0 0 200 200">
+          <defs>
+            <linearGradient id="grad5" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#009688;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#FFC107;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <rect x="10" y="10" width="180" height="180" fill="url(#grad5)" rx="15" ry="15"/>
+          <text x="100" y="100" font-family="Arial" font-size="24" text-anchor="middle" fill="white">Acessibilidade</text>
+          <path d="M50,150 L100,50 L150,150" fill="none" stroke="white" stroke-width="4"/>
+          <circle cx="50" cy="150" r="10" fill="white"/>
+          <circle cx="150" cy="150" r="10" fill="white"/>
+        </svg>
+      `,
+      exercises: [
+        {
+          title: "Exercício Básico 1",
+          description: "Adicione atributos ARIA apropriados a um formulário existente.",
+          type: "basic"
+        },
+        {
+          title: "Exercício Básico 2",
+          description: "Melhore o contraste de cores de um site para atender aos padrões de acessibilidade.",
+          type: "basic"
+        },
+        {
+          title: "Exercício Intermediário",
+          description: "Crie um modal acessível que possa ser navegado e fechado usando apenas o teclado.",
+          type: "intermediate"
+        },
+        {
+          title: "Desafio",
+          description: "Realize uma auditoria de acessibilidade em um site existente e implemente as correções necessárias.",
+          type: "challenge"
+        }
+      ]
+    },
+    {
+      number: 6,
+      title: "Banco de Dados e Interação com Servidores",
+      content: `
+        <p>Este módulo introduz os conceitos de armazenamento e recuperação de dados, bem como a comunicação entre o front-end e o back-end de uma aplicação web.</p>
+        <h3>Tópicos Abordados:</h3>
+        <ul>
+          <li>Introdução a bancos de dados SQL e NoSQL</li>
+          <li>CRUD operations</li>
+          <li>APIs RESTful</li>
+          <li>Autenticação e autorização</li>
+          <li>Segurança de dados</li>
+        </ul>
+        <h3>Aprofundamento:</h3>
+        <p>Os bancos de dados SQL, como MySQL e PostgreSQL, estruturam dados em tabelas, enquanto os bancos de dados NoSQL, como MongoDB, usam formatos flexíveis como documentos. Saber quando usar cada um depende das necessidades específicas de sua aplicação.</p>
+        <p>Operações CRUD (Create, Read, Update, Delete) são a base da interação com bancos de dados, permitindo que você manipule dados em sua aplicação.</p>
+      `,
+      curiosities: `
+        <h4>Você sabia?</h4>
+        <ul>
+          <li>O primeiro banco de dados comercial foi o IBM Information Management System, lançado em 1968.</li>
+          <li>APIs RESTful utilizam os métodos HTTP (GET, POST, PUT, DELETE) para permitir a comunicação entre serviços.</li>
+        </ul>
+      `,
+      image: `
+        <svg width="200" height="200" viewBox="0 0 200 200">
+          <defs>
+            <linearGradient id="grad6" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#3F51B5;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#FF4081;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <rect x="10" y="10" width="180" height="180" fill="url(#grad6)" rx="15" ry="15"/>
+          <text x="100" y="100" font-family="Arial" font-size="24" text-anchor="middle" fill="white">Banco de Dados</text>
+          <path d="M50,150 L150,50" fill="none" stroke="white" stroke-width="4"/>
+          <circle cx="50" cy="150" r="10" fill="white"/>
+          <circle cx="150" cy="50" r="10" fill="white"/>
+        </svg>
+      `,
+      exercises: [
+        {
+          title: "Exercício Básico 1",
+          description: "Crie um banco de dados simples para armazenar informações de usuários.",
+          type: "basic"
+        },
+        {
+          title: "Exercício Básico 2",
+          description: "Implemente operações CRUD básicas usando uma API RESTful.",
+          type: "basic"
+        },
+        {
+          title: "Exercício Intermediário",
+          description: "Desenvolva um sistema de autenticação de usuários com JWT (JSON Web Tokens).",
+          type: "intermediate"
+        },
+        {
+          title: "Desafio",
+          description: "Crie uma aplicação full-stack com um back-end Node.js, banco de dados MongoDB e front-end React.",
+          type: "challenge"
+        }
+      ]
+    },
+    {
+      number: 7,
+      title: "Frameworks Front-end e Back-end",
+      content: `
+        <p>Neste módulo, você será introduzido aos frameworks mais populares tanto para o desenvolvimento front-end quanto back-end, entendendo suas vantagens e casos de uso.</p>
+        <h3>Tópicos Abordados:</h3>
+        <ul>
+          <li>Visão geral dos frameworks front-end (React, Vue.js, Angular)</li>
+          <li>Frameworks back-end (Express.js, Django, Ruby on Rails)</li>
+          <li>Arquitetura de aplicações usando frameworks</li>
+          <li>Comparação e escolha de frameworks</li>
+        </ul>
+        <h3>Aprofundamento:</h3>
+        <p>Frameworks como React e Vue.js permitem construir interfaces de usuário de maneira mais organizada e eficiente, utilizando componentes reutilizáveis. Já frameworks back-end como Express.js e Django facilitam a criação de APIs e o gerenciamento de bancos de dados.</p>
+        <p>A escolha de um framework deve levar em conta a natureza do projeto, a equipe envolvida e as vantagens que cada tecnologia oferece.</p>
+      `,
+      curiosities: `
+        <h4>Você sabia?</h4>
+        <ul>
+          <li>React foi desenvolvido pelo Facebook e lançado em 2013, vindo a se tornar um dos frameworks mais populares do mundo.</li>
+          <li>Django é um dos frameworks Python mais conhecidos, sendo amplamente utilizado para desenvolvimento rápido de aplicações web seguras.</li>
+        </ul>
+      `,
+      image: `
+        <svg width="200" height="200" viewBox="0 0 200 200">
+          <defs>
+            <linearGradient id="grad7" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#3F51B5;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#FF4081;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <rect x="10" y="10" width="180" height="180" fill="url(#grad7)" rx="15" ry="15"/>
+          <text x="100" y="100" font-family="Arial" font-size="24" text-anchor="middle" fill="white">Frameworks</text>
+          <path d="M50,150 L150,50" fill="none" stroke="white" stroke-width="4"/>
+          <circle cx="50" cy="150" r="10" fill="white"/>
+          <circle cx="150" cy="50" r="10" fill="white"/>
+        </svg>
+      `,
+      exercises: [
+        {
+          title: "Exercício Básico 1",
+          description: "Crie um componente de botão reutilizável usando React.",
+          type: "basic"
+        },
+        {
+          title: "Exercício Básico 2",
+          description: "Implemente uma rota simples usando Express.js.",
+          type: "basic"
+        },
+        {
+          title: "Exercício Intermediário",
+          description: "Desenvolva uma aplicação de página única (SPA) usando Vue.js.",
+          type: "intermediate"
+        },
+        {
+          title: "Desafio",
+          description: "Crie uma aplicação de blog completa usando React no front-end e Express.js no back-end.",
+          type: "challenge"
+        }
+      ]
+    },
+    {
+      number: 8,
+      title: "React e Vue.js",
+      content: `
+        <p>Este módulo se aprofunda em dois dos frameworks front-end mais populares: React e Vue.js. Você aprenderá a criar aplicações web modernas e eficientes com essas tecnologias.</p>
+        <h3>Tópicos Abordados:</h3>
+        <ul>
+          <li>Componentes e props em React e Vue.js</li>
+          <li>Estado e ciclo de vida</li>
+          <li>Roteamento em SPAs</li>
+          <li>Gerenciamento de estado (Redux, Vuex)</li>
+          <li>Hooks em React</li>
+          <li>Composição em Vue.js</li>
+        </ul>
+        <h3>Aprofundamento:</h3>
+        <p>Componentes são a unidade básica de construção em ambas as bibliotecas, e o gerenciamento de estado é crucial para aplicações mais complexas. Redux para React e Vuex para Vue.js são ferramentas que ajudam a centralizar e gerenciar o estado da aplicação.</p>
+        <p>Os hooks em React permitem que você utilize estado e outros recursos do React sem escrever uma classe, promovendo uma maneira mais moderna de construir suas aplicações.</p>
+      `,
+      curiosities: `
+        <h4>Você sabia?</h4>
+        <ul>
+          <li>React tem uma vasta comunidade, tornando-se a biblioteca mais requisitada no mercado de trabalho em desenvolvimento front-end.</li>
+          <li>Vue.js foi criado por Evan You, que trabalhava anteriormente com Google e ajudou a desenvolver aplicações web utilizando o AngularJS.</li>
+        </ul>
+      `,
+      image: `
+        <svg width="200" height="200" viewBox="0 0 200 200">
+          <defs>
+            <linearGradient id="grad8" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#3F51B5;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#FF4081;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <rect x="10" y="10" width="180" height="180" fill="url(#grad8)" rx="15" ry="15"/>
+          <text x="100" y="100" font-family="Arial" font-size="24" text-anchor="middle" fill="white">React & Vue</text>
+          <path d="M50,150 L150,50" fill="none" stroke="white" stroke-width="4"/>
+          <circle cx="50" cy="150" r="10" fill="white"/>
+          <circle cx="150" cy="50" r="10" fill="white"/>
+        </svg>
+      `,
+      exercises: [
+        {
+          title: "Exercício Básico 1",
+          description: "Crie uma lista de tarefas (Todo List) usando React hooks.",
+          type: "basic"
+        },
+        {
+          title: "Exercício Básico 2",
+          description: "Implemente um carrinho de compras simples usando Vue.js.",
+          type: "basic"
+        },
+        {
+          title: "Exercício Intermediário",
+          description: "Desenvolva uma aplicação de previsão do tempo com React, utilizando uma API externa.",
+          type: "intermediate"
+        },
+        {
+          title: "Desafio",
+          description: "Crie um clone simplificado do Twitter usando Vue.js e Vuex para gerenciamento de estado.",
+          type: "challenge"
+        }
+      ]
+    },
+    {
+      number: 9,
+      title: "Node.js e Next.js",
+      content: `
+        <p>Neste módulo, você aprenderá sobre Node.js para desenvolvimento back-end e Next.js para criar aplicações React com renderização do lado do servidor.</p>
+        <h3>Tópicos Abordados:</h3>
+        <ul>
+          <li>Introdução ao Node.js e npm</li>
+          <li>Criação de servidores com Node.js</li>
+          <li>Módulos e pacotes em Node.js</li>
+          <li>Renderização do lado do servidor com Next.js</li>
+          <li>Roteamento e API routes no Next.js</li>
+          <li>Otimização de performance com Next.js</li>
+        </ul>
+        <h3>Aprofundamento:</h3>
+        <p>Node.js é um ambiente de execução que permite executar JavaScript no servidor, possibilitando a construção de aplicações rápidas e escaláveis em JavaScript. O npm (Node Package Manager) gerencia pacotes e bibliotecas que podem ser facilmente integrados ao seu projeto.</p>
+        <p>Next.js fornece uma estrutura para desenvolvimento de aplicações React que traz benefícios como renderização do lado do servidor e otimização de performance automática.</p>
+      `,
+      curiosities: `
+        <h4>Você sabia?</h4>
+        <ul>
+          <li>Node.js foi criado em 2009 por Ryan Dahl e rapidamente se tornou popular para desenvolvimento web devido à sua eficiência na construção de aplicações em tempo real.</li>
+          <li>Next.js foi criado pela Vercel e é amplamente adotado para criar aplicações React altamente escaláveis.</li>
+        </ul>
+      `,
+      image: `
+        <svg width="200" height="200" viewBox="0 0 200 200">
+          <defs>
+            <linearGradient id="grad9" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#3F51B5;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#FF4081;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <rect x="10" y="10" width="180" height="180" fill="url(#grad9)" rx="15" ry="15"/>
+          <text x="100" y="100" font-family="Arial" font-size="24" text-anchor="middle" fill="white">Node & Next</text>
+          <path d="M50,150 L150,50" fill="none" stroke="white" stroke-width="4"/>
+          <circle cx="50" cy="150" r="10" fill="white"/>
+          <circle cx="150" cy="50" r="10" fill="white"/>
+        </svg>
+      `,
+      exercises: [
+        {
+          title: "Exercício Básico 1",
+          description: "Crie um servidor HTTP simples com Node.js.",
+          type: "basic"
+        },
+        {
+          title: "Exercício Básico 2",
+          description: "Implemente uma página estática usando Next.js.",
+          type: "basic"
+        },
+        {
+          title: "Exercício Intermediário",
+          description: "Desenvolva uma API RESTful com Node.js e Express.",
+          type: "intermediate"
+        },
+        {
+          title: "Desafio",
+          description: "Crie um blog com Next.js, utilizando renderização do lado do servidor e API routes.",
+          type: "challenge"
+        }
+      ]
+    },
+    {
+      number: 10,
+      title: "Meteor",
+      content: `
+        <p>Meteor é uma plataforma full-stack para desenvolvimento de aplicações web e móveis em tempo real. Neste módulo, você aprenderá como usar Meteor para criar aplicações reativas e em tempo real.</p>
+        <h3>Tópicos Abordados:</h3>
+        <ul>
+          <li>Introdução ao Meteor e sua arquitetura</li>
+          <li>Reatividade no Meteor</li>
+          <li>Publicações e assinaturas</li>
+          <li>Métodos e chamadas remotas</li>
+          <li>Integração com bancos de dados</li>
+          <li>Autenticação e segurança no Meteor</li>
+        </ul>
+        <h3>Aprofundamento:</h3>
+        <p>O Meteor faz uso de uma arquitetura que permite aplicações de tempo real, onde as atualizações são enviadas automaticamente do servidor para o cliente, sem que seja necessário recarregar a página. A reatividade é uma característica chave desta plataforma, tornando o desenvolvimento mais intuitivo.</p>
+        <p>A integração com MongoDB e outras tecnologias de banco de dados também é facilitada pelo Meteor, permitindo uma experiência fluida de desenvolvimento.</p>
+      `,
+      curiosities: `
+        <h4>Você sabia?</h4>
+        <ul>
+          <li>Meteor foi lançado em 2012 e cresceu rapidamente em popularidade por sua facilidade em conectar o front-end e o back-end.</li>
+          <li>O Meteor permite a escrita de código tanto no servidor quanto no cliente na mesma linguagem, JavaScript.</li>
+        </ul>
+      `,
+      image: `
+        <svg width="200" height="200" viewBox="0 0 200 200">
+          <defs>
+            <linearGradient id="grad10" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#3F51B5;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#FF4081;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <rect x="10" y="10" width="180" height="180" fill="url(#grad10)" rx="15" ry="15"/>
+          <text x="100" y="100" font-family="Arial" font-size="24" text-anchor="middle" fill="white">Meteor</text>
+          <path d="M50,150 L150,50" fill="none" stroke="white" stroke-width="4"/>
+          <circle cx="50" cy="150" r="10" fill="white"/>
+          <circle cx="150" cy="50" r="10" fill="white"/>
+        </svg>
+      `,
+      exercises: [
+        {
+          title: "Exercício Básico 1",
+          description: "Crie uma aplicação Meteor simples com uma lista reativa de itens.",
+          type: "basic"
+        },
+        {
+          title: "Exercício Básico 2",
+          description: "Implemente um sistema de autenticação de usuários com Meteor.",
+          type: "basic"
+        },
+        {
+          title: "Exercício Intermediário",
+          description: "Desenvolva um chat em tempo real usando Meteor.",
+          type: "intermediate"
+        },
+        {
+          title: "Desafio",
+          description: "Crie uma aplicação de e-commerce completa com Meteor, incluindo carrinho de compras em tempo real e sistema de pagamento.",
+          type: "challenge"
+        }
+      ]
+    },
+    {
+      number: 11,
+      title: "Bootstrap",
+      content: `
+        <p>Bootstrap é um dos frameworks CSS mais populares para desenvolvimento de interfaces responsivas e mobile-first. Neste módulo, você aprenderá a usar Bootstrap para criar layouts profissionais rapidamente.</p>
+        <h3>Tópicos Abordados:</h3>
+        <ul>
+          <li>Sistema de grid do Bootstrap</li>
+          <li>Componentes do Bootstrap (navbar, cards, forms, etc.)</li>
+          <li>Customização do Bootstrap</li>
+          <li>Responsividade com Bootstrap</li>
+          <li>Utilitários do Bootstrap</li>
+          <li>Integração do Bootstrap com JavaScript</li>
+        </ul>
+        <h3>Aprofundamento:</h3>
+        <p>Bootstrap foi criado por Mark Otto e Jacob Thornton no Twitter e desde então se tornou o framework front-end mais utilizado. Ele oferece uma grade flexível que permite a criação de layouts responsivos de forma ágil. Os componentes já prontos são fáceis de implementar e altamente adaptáveis.</p>
+        <p>Com o Bootstrap, não é apenas fácil estilizar elementos, mas também integra-los com JavaScript para adicionar interatividade como modais, dropdowns e carrosséis.</p>
+      `,
+      curiosities: `
+        <h4>Você sabia?</h4>
+        <ul>
+          <li>Bootstrap é um projeto open-source e sua primeira versão foi lançada em 2011.</li>
+          <li>O uso deste framework pode acelerar significativamente o processo de desenvolvimento de interfaces.</li>
+        </ul>
+      `,
+      image: `
+        <svg width="200" height="200" viewBox="0 0 200 200">
+          <defs>
+            <linearGradient id="grad11" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#3F51B5;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#FF4081;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <rect x="10" y="10" width="180" height="180" fill="url(#grad11)" rx="15" ry="15"/>
+          <text x="100" y="100" font-family="Arial" font-size="24" text-anchor="middle" fill="white">Bootstrap</text>
+          <path d="M50,150 L150,50" fill="none" stroke="white" stroke-width="4"/>
+          <circle cx="50" cy="150" r="10" fill="white"/>
+          <circle cx="150" cy="50" r="10" fill="white"/>
+        </svg>
+      `,
+      exercises: [
+        {
+          title: "Exercício Básico 1",
+          description: "Crie uma página de destino (landing page) responsiva usando o sistema de grid do Bootstrap.",
+          type: "basic"
+        },
+        {
+          title: "Exercício Básico 2",
+          description: "Implemente um formulário de contato estilizado com componentes do Bootstrap.",
+          type: "basic"
+        },
+        {
+          title: "Exercício Intermediário",
+          description: "Desenvolva um layout de dashboard administrativo usando Bootstrap.",
+          type: "intermediate"
+        },
+        {
+          title: "Desafio",
+          description: "Crie um clone simplificado do Instagram usando Bootstrap para o layout e componentes.",
+          type: "challenge"
+        }
+      ]
+    },
+    {
+      number: 12,
+      title: "APIs no Desenvolvimento Web",
+      content: `
+        <p>As APIs (Interfaces de Programação de Aplicações) são fundamentais para o desenvolvimento web moderno. Neste módulo, você aprenderá a criar, consumir e integrar APIs em suas aplicações.</p>
+        <h3>Tópicos Abordados:</h3>
+        <ul>
+          <li>Conceitos fundamentais de APIs</li>
+          <li>RESTful APIs</li>
+          <li>Autenticação e autorização em APIs</li>
+          <li>Consumo de APIs com JavaScript (Fetch API, Axios)</li>
+          <li>Criação de APIs com Node.js e Express</li>
+          <li>Documentação de APIs</li>
+        </ul>
+        <h3>Aprofundamento:</h3>
+        <p>APIs são essenciais para comunicação entre diferentes serviços e aplicações. REST (Representational State Transfer) é um dos estilos arquiteturais mais comuns para APIs, permitindo operações CRUD de forma eficiente através dos métodos HTTP.</p>
+        <p>O consumo de APIs pode ser feito usando o Fetch API ou bibliotecas como Axios, que simplificam a implementação das requisições HTTP em suas aplicações.</p>
+      `,
+      curiosities: `
+        <h4>Você sabia?</h4>
+        <ul>
+          <li>As APIs permitem que diferentes sistemas se comuniquem e troquem dados, facilitando a integração de serviços.</li>
+          <li>O primeiro uso bem-sucedido de uma API moderna foi o chamado "SaaS API" da Salesforce, permitindo a integração entre sua plataforma e outros aplicativos.</li>
+        </ul>
+      `,
+      image: `
+        <svg width="200" height="200" viewBox="0 0 200 200">
+          <defs>
+            <linearGradient id="grad12" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#3F51B5;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#FF4081;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <rect x="10" y="10" width="180" height="180" fill="url(#grad12)" rx="15" ry="15"/>
+          <text x="100" y="100" font-family="Arial" font-size="24" text-anchor="middle" fill="white">APIs</text>
+          <path d="M50,150 L150,50" fill="none" stroke="white" stroke-width="4"/>
+          <circle cx="50" cy="150" r="10" fill="white"/>
+          <circle cx="150" cy="50" r="10" fill="white"/>
+        </svg>
+      `,
+      exercises: [
+        {
+          title: "Exercício Básico 1",
+          description: "Consuma uma API pública (como a API do GitHub) e exiba os dados em uma página web.",
+          type: "basic"
+        },
+        {
+          title: "Exercício Básico 2",
+          description: "Crie uma API simples com Express.js que retorne dados de um array.",
+          type: "basic"
+        },
+        {
+          title: "Exercício Intermediário",
+          description: "Implemente um sistema de autenticação JWT para uma API existente.",
+          type: "intermediate"
+        },
+        {
+          title: "Desafio",
+          description: "Desenvolva uma API completa para um sistema de blog, incluindo CRUD de posts, comentários e autenticação de usuários.",
+          type: "challenge"
+        }
+      ]
+    },
+    {
+      number: 13,
+      title: "Projeto Final",
+      content: `
+        <p>Neste módulo final, você aplicará todos os conhecimentos adquiridos ao longo do curso para criar um projeto web completo e funcional.</p>
+        <h3>Objetivos do Projeto:</h3>
+        <ul>
+          <li>Integrar tecnologias front-end e back-end</li>
+          <li>Implementar funcionalidades complexas</li>
+          <li>Aplicar boas práticas de desenvolvimento</li>
+          <li>Criar uma interface responsiva e acessível</li>
+          <li>Desenvolver e consumir APIs</li>
+          <li>Implementar autenticação e autorização</li>
+        </ul>
+        <h3>Aprofundamento:</h3>
+        <p>O projeto final é uma oportunidade para mostrar todas as habilidades que você desenvolveu ao longo do curso. Ele deve incorporar os princípios de design responsivo, acessibilidade e integração de APIs.</p>
+        <p>Planejamento cuidadoso e execução metódica são essenciais para o sucesso do seu projeto, que será uma parte significativa do seu portfólio.</p>
+      `,
+      curiosities: `
+        <h4>Você sabia?</h4>
+        <ul>
+          <li>Projetos práticos são uma das melhores maneiras de solidificar seu aprendizado e impressionar potenciais empregadores.</li>
+          <li>Documentar bem seu projeto é tão importante quanto o código em si; uma boa documentação pode fazer seu projeto se destacar.</li>
+        </ul>
+      `,
+      image: `
+        <svg width="200" height="200" viewBox="0 0 200 200">
+          <defs>
+            <linearGradient id="grad13" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#3F51B5;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#FF4081;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <rect x="10" y="10" width="180" height="180" fill="url(#grad13)" rx="15" ry="15"/>
+          <text x="100" y="100" font-family="Arial" font-size="24" text-anchor="middle" fill="white">Projeto Final</text>
+          <path d="M50,150 L150,50" fill="none" stroke="white" stroke-width="4"/>
+          <circle cx="50" cy="150" r="10" fill="white"/>
+          <circle cx="150" cy="50" r="10" fill="white"/>
+        </svg>
+      `,
+      exercises: [
+        {
+          title: "Planejamento do Projeto",
+          description: "Crie um documento de especificação do projeto, incluindo wireframes e descrição das funcionalidades.",
+          type: "basic"
+        },
+        {
+          title: "Desenvolvimento do Back-end",
+          description: "Implemente a estrutura básica do back-end, incluindo modelos de dados e rotas da API.",
+          type: "basic"
+        },
+        {
+          title: "Desenvolvimento do Front-end",
+          description: "Crie a interface do usuário utilizando um framework moderno (React, Vue.js) e integre com o back-end.",
+          type: "intermediate"
+        },
+        {
+          title: "Projeto Final Completo",
+          description: "Finalize o projeto, implementando todas as funcionalidades planejadas, e prepare uma apresentação demonstrando o trabalho realizado.",
+          type: "challenge"
+        }
+      ]
+    }
+  ];
+
+  return (
+    <div className="container-fluid p-0">
+      <header className="bg-primary text-white text-center py-4">
+        <h1>Curso Completo de Desenvolvimento Web</h1>
+      </header>
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div className="container">
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav">
+              {modules.map(module => (
+                <li className="nav-item" key={module.number}>
+                  <a className="nav-link" href={`#module${module.number}`}>{`Módulo ${module.number}`}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <div className="container my-4">
+        {modules.map(module => (
+          <Module
+            key={module.number}
+            number={module.number}
+            title={module.title}
+            content={module.content}
+            curiosities={module.curiosities}
+            image={module.image}
+            exercises={module.exercises}
+          />
+        ))}
+      </div>
+      <Footer />
+    </div>
+  );
+};
+
+ReactDOM.render(<App />, document.getElementById('root'));
+</script>
+
+</body>
+</html>
